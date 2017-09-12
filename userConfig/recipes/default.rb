@@ -4,38 +4,39 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-user 'chaitu' do
+user node['name'] do
         action :create
-        password 'Password'
-        home '/home/chaitu'
-        uid '231'
+        password node['password']
+        uid node['uid']
 end
 
-group 'Group1' do
+group node['groupPrimary'] do
         action :create
-        gid '567'
+        gid node['gid']
 end
 
-group 'Group1' do
+group node['groupPrimary'] do
         action :modify
-        members 'chaitu'
+        members node['name']
 end
 
-user 'chaitu' do
+user node['name'] do
         action :modify
         shell '/bin/bash'
 end
 
-group 'Group2' do
+group node['groupSecondary'] do
         action :create
-        gid '789'
-	members 'chaitu'
+        gid node['gid2']
+	members node['name']
 end
 
-file '/etc/sudoers.d/chaitu' do
-	content "chaitu ALL = NOPASSWD: ALL
+file node['name'] do
+	name=node['name']
+	path '/etc/sudoers'
+	content "#{name} ALL = NOPASSWD: ALL
 
 # User rule
-chaitu ALL=(ALL) NOPASSWD:ALL"
+#{name} ALL=(ALL) NOPASSWD:ALL"
 
 end
