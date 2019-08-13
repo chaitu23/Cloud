@@ -1,13 +1,46 @@
-import json
-import requests
 
-def fetchData(detail):
-	url_initial='http://169.254.169.254/latest/meta-data/'
-	url_final=url_initial+detail
-	valueFetched=requests.get(url_final)
-	return(valueFetched)
+import requests
+import json
+
+def load():
+    dataurl = 'http://169.254.169.254/latest'
+    metadict = {'dynamic': {}, 'meta-data': {}, 'user-data': {}}
+
+    for subsect in metadict.keys():
+        datacrawl('{0}/{1}/'.format(metaurl, subsect), metadict[subsect])
+
+    return metadict
+
+
+def datacrawl(url, d):
+    r = requests.get(url)
+    if r.status_code == 404:
+        return
+
+    for l in r.text.split('\n'):
+        if not l: # "instance-identity/\n" case
+            continue
+        newurl = '{0}{1}'.format(url, l)
+        # a key is detected with a final '/'
+        if l.endswith('/'):
+            newkey = l.split('/')[-2]
+            d[newkey] = {}
+            datacrawl(newurl, d[newkey])
+
+        else:
+            r = requests.get(newurl)
+            if r.status_code != 404:
+                try:
+                    d[l] = json.loads(r.text)
+                except ValueError:
+                    d[l] = r.text
+            else:
+                d[l] = None
+
+def fetchSpecificData(detail):
+	detailFetched=metadict[detail]
+	print(detailFetched)
 
 if __name__ == '__main__':
-	specificDataToBeFetched="ami-id"
-	queriedInfo=fetchData(specificDataToBeFetched)
-	print(queriedInfo)
+    print(json.dumps(load()))
+	fetchSpecificData('ami-id')
