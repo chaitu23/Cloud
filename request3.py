@@ -3,7 +3,7 @@ import requests
 import json
 
 def load():
-    dataurl = 'http://169.254.169.254/latest'
+    metaurl = 'http://169.254.169.254/latest'
     metadict = {'dynamic': {}, 'meta-data': {}, 'user-data': {}}
 
     for subsect in metadict.keys():
