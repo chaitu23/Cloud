@@ -42,5 +42,5 @@ if __name__ == '__main__':
     	#print(json.dumps(load()))
 	metadata=json.dumps(load())
 	print(metadata)
-	detail=metadata["ami-id"]
-	print("The specific info queried is ami-id :" + detail)
+	detail=metadata["instance-type"]
+	print("The specific info queried is insatcne-type :" + detail)
