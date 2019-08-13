@@ -37,10 +37,11 @@ def datacrawl(url, d):
             else:
                 d[l] = None
 
-def fetchSpecificData(detail):
+def fetchSpecificData(metadict,detail):
 	detailFetched=metadict[detail]
 	print(detailFetched)
 
 if __name__ == '__main__':
-    	print(json.dumps(load()))
-	fetchSpecificData('ami-id')
+    	#print(json.dumps(load()))
+	metadata=json.dumps(load())
+	fetchSpecificData(metadata,'ami-id')
