@@ -42,5 +42,5 @@ def fetchSpecificData(detail):
 	print(detailFetched)
 
 if __name__ == '__main__':
-    print(json.dumps(load()))
+    	print(json.dumps(load()))
 	fetchSpecificData('ami-id')
