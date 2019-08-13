@@ -1,7 +1,7 @@
 import json
 import requests
 
-fetchData(detail):
+def fetchData(detail):
 url_initial='http://169.254.169.254/latest/meta-data/'
 url_final=url_initial+detail
 valueFetched=request.get(url_final)
